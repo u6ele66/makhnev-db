@@ -23,7 +23,6 @@ CREATE TABLE official
 (
 	id int NOT NULL,
 	official_name varchar(50) NOT NULL,
-	official_surname varchar(50) NOT NULL,
 	official_company varchar(80) NOT NULL,
 	official_address varchar(100) NOT NULL,
 	official_salary int NOT NULL,

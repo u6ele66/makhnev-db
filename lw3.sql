@@ -8,14 +8,14 @@ INSERT INTO official_city VALUES(34, 'Волгоград', 'Волгоградская', 212087);
 INSERT INTO official_city VALUES(74, 'Красноярск', 'Красноярская', 231124);
 INSERT INTO official_city VALUES(28, 'Казань', 'Татарстан', 243244);
 INSERT INTO official_city VALUES(98, 'Чебоксары', 'Чувашская Республика', 212987);
-INSERT INTO official VALUES(13, 'Алексей', 'Иванов', 'ООО "Мебель"', 'ул. Прохорова, д.12, офис 43', 50000, 34, 535125);
-INSERT INTO official VALUES(12, 'Александр', 'Иванов', 'ООО "Мебель"', 'ул. Прохорова, д.12, офис 43', 40000, 34, 635211);
-INSERT INTO official VALUES(93, 'Сергей', 'Петров', 'ООО "ДомСтрой"', 'ул. Панфилова, д.2, офис 3', 60000, 74, 735121);
-INSERT INTO official VALUES(92, 'Андрей', 'Петров', 'ООО "ДомСтрой"', 'ул. Панфилова, д.2, офис 3', 10000, 74, 812462);
-INSERT INTO official VALUES(91, 'Алексей', 'Петров', 'ООО "ДомСтрой"', 'ул. Панфилова, д.2, офис 3', 110000, 74, 946422);
-INSERT INTO official VALUES(63, 'Андрей', 'Губов', 'ООО "Авокадо"', 'ул. Сталина, д.6, офис 12', 70000, 28, 646234);
-INSERT INTO official VALUES(64, 'Сергей', 'Губов', 'ООО "Авокадо"', 'ул. Сталина, д.6, офис 12', 80000, 28, 798474);
-INSERT INTO official VALUES(15, 'Надежда', 'Любовная', 'ООО "Белая птица"', 'ул. Гоголя, д.8, офис 65', 50000, 98, 809459);
+INSERT INTO official VALUES(13, 'Алексей Иванов', 'ООО "Мебель"', 'ул. Прохорова, д.12, офис 43', 50000, 34, 535125);
+INSERT INTO official VALUES(12, 'Алексей Иванов', 'ООО "Мебель"', 'ул. Прохорова, д.12, офис 43', 40000, 34, 635211);
+INSERT INTO official VALUES(93, 'Сергей Петров', 'ООО "ДомСтрой"', 'ул. Панфилова, д.2, офис 3', 60000, 74, 735121);
+INSERT INTO official VALUES(92, 'Сергей Петров', 'ООО "ДомСтрой"', 'ул. Панфилова, д.2, офис 3', 10000, 74, 812462);
+INSERT INTO official VALUES(91, 'Сергей Петров', 'ООО "ДомСтрой"', 'ул. Панфилова, д.2, офис 3', 110000, 74, 946422);
+INSERT INTO official VALUES(63, 'Андрей Губов', 'ООО "Авокадо"', 'ул. Сталина, д.6, офис 12', 70000, 28, 646234);
+INSERT INTO official VALUES(64, 'Андрей Губов', 'ООО "Авокадо"', 'ул. Сталина, д.6, офис 12', 80000, 28, 798474);
+INSERT INTO official VALUES(15, 'Надежда Любовная', 'ООО "Белая птица"', 'ул. Гоголя, д.8, офис 65', 50000, 98, 809459);
 INSERT INTO orders VALUES(23, 'Иван', 'Петров', '01-01-2019', 243244)
 INSERT INTO orders VALUES(76, 'Петр', 'Сергеев', '02-02-2020', 212087);
 INSERT INTO orders VALUES(65, 'Екатерина', 'Полова', '03-03-2021', 212987);
@@ -24,9 +24,9 @@ INSERT INTO order_sender VALUES(43, 'Управляющая компания', 'ул. Ленина, д.3, оф
 INSERT INTO order_sender VALUES(238, 'Управление Строительством', 'ул. Петрова, д.27, офис 28', 32, 413241)
 INSERT INTO order_sender VALUES(532, 'Администрация', 'ул. Карла Маркса, д.29, офис 12', 44, 523131)
 INSERT INTO order_sender VALUES(356, 'Местное Управление', 'ул. Крылова, д.63, офис 74', 54, 535312)
-INSERT INTO mailing_to_officials VALUES(43, '05-05-2023', 'Иван Алексеев', 76, 93, 74, 238);
-INSERT INTO mailing_to_officials VALUES(63, '06-06-2024', 'Иван Иванов', 65, 63, 28, 532);
-INSERT INTO mailing_to_officials VALUES(47, '07-07-2025', 'Петр Полов', 534, 15, 98, 356);
+INSERT INTO mailing_to_officials VALUES(43, '05-05-2023', 'Алексей Иванов', 76, 93, 74, 238);
+INSERT INTO mailing_to_officials VALUES(63, '06-06-2024', 'Алексей Иванов', 65, 63, 28, 532);
+INSERT INTO mailing_to_officials VALUES(47, '07-07-2025', 'Сергей Петров', 534, 15, 98, 356);
 ---- 1.2 С указание списка полей
 INSERT INTO official_city(id, title, area, postal_code) VALUES (3, 'Москва', 'Московская', 652345);
 ---- 1.3 С чтением значений из другой таблицы
@@ -52,7 +52,7 @@ UPDATE official_city SET title = 'Тверь', area = 'Тверская' WHERE id = 74;
 
 -- 4.SELECT
 ---- 4.1 С определенным набором извлекаемых атрибутов (SELECT atr1, atr2 FROM...)
-SELECT official_name, official_surname FROM official;
+SELECT official_name FROM official;
 ---- 4.2 Со всеми атрибутами (SELECT * FROM...)
 SELECT * FROM orders;
 ---- 4.3 С условием по атрибуту (SELECT * FROM ... WHERE atr1 = "")
@@ -77,25 +77,30 @@ SELECT YEAR(date_of_order) AS year_birthday FROM orders;
 
 -- 7. SELECT GROUP BY с функциями агрегации
 ----7.1 MIN
-SELECT official_surname, min(official_salary) AS min_salary FROM official GROUP BY official_surname;
+SELECT official_name, min(official_salary) AS min_salary FROM official GROUP BY official_name;
 ----7.2 MAX
-SELECT official_surname, max(official_salary) AS max_salary FROM official GROUP BY official_surname;
+SELECT official_name, max(official_salary) AS max_salary FROM official GROUP BY official_name;
 ----7.3 AVG
-SELECT official_surname, avg(official_salary) AS avg_salary FROM official GROUP BY official_surname;
+SELECT official_name, avg(official_salary) AS avg_salary FROM official GROUP BY official_name;
 ----7.4 SUM
-SELECT official_surname, sum(official_salary) AS sum_salary FROM official GROUP BY official_surname;
+SELECT official_name, sum(official_salary) AS sum_salary FROM official GROUP BY official_name;
 
 ----7.5 COUNT
-SELECT official_surname, count(official_salary) AS count_salary FROM official GROUP BY official_surname;
+SELECT official_name, count(official_salary) AS count_salary FROM official GROUP BY official_name;
+
+
+----ДОБАВЛЕНИЕ НОВОГО ЗАПРОСА ПО ЗАДАНИЮ ПРЕПОДАВАТЕЛЯ
+SELECT official_id, count(order_id) AS orders_quantity FROM mailing_to_officials GROUP BY official_id;
+
 
 -- 8. SELECT GROUP BY + HAVING
 ----8.1 Написать 3 разных запроса с использованием GROUP BY + HAVING
 
-SELECT official_surname, count(official_salary) AS count_salary FROM official GROUP BY official_surname HAVING count(official_salary) < 3;
+SELECT official_name, count(official_salary) AS count_salary FROM official GROUP BY official_name HAVING count(official_salary) < 3;
 
-SELECT official_surname, avg(official_salary) AS avg_salary FROM official GROUP BY official_surname HAVING avg(official_salary) <= 50000;
+SELECT official_name, avg(official_salary) AS avg_salary FROM official GROUP BY official_name HAVING avg(official_salary) <= 50000;
 
-SELECT official_surname, min(official_salary) AS min_salary FROM official GROUP BY official_surname HAVING min(official_salary) <= 40000;    
+SELECT official_name, min(official_salary) AS min_salary FROM official GROUP BY official_name HAVING min(official_salary) <= 40000;    
 
 -- 9. SELECT JOIN
 ---- 9.1 LEFT JOIN двух таблиц и WHERE по одному из атрибутов
