@@ -8,6 +8,7 @@ INSERT INTO official_city VALUES(34, 'Волгоград', 'Волгоградская', 212087);
 INSERT INTO official_city VALUES(74, 'Красноярск', 'Красноярская', 231124);
 INSERT INTO official_city VALUES(28, 'Казань', 'Татарстан', 243244);
 INSERT INTO official_city VALUES(98, 'Чебоксары', 'Чувашская Республика', 212987);
+INSERT INTO official_city VALUES(91, 'Город N', 'Чувашская Республика', 213987);
 INSERT INTO official VALUES(13, 'Алексей Иванов', 'ООО "Мебель"', 'ул. Прохорова, д.12, офис 43', 50000, 34, 535125);
 INSERT INTO official VALUES(12, 'Алексей Иванов', 'ООО "Мебель"', 'ул. Прохорова, д.12, офис 43', 40000, 34, 635211);
 INSERT INTO official VALUES(93, 'Сергей Петров', 'ООО "ДомСтрой"', 'ул. Панфилова, д.2, офис 3', 60000, 74, 735121);
@@ -90,7 +91,8 @@ SELECT official_name, count(official_salary) AS count_salary FROM official GROUP
 
 
 ----ДОБАВЛЕНИЕ НОВОГО ЗАПРОСА ПО ЗАДАНИЮ ПРЕПОДАВАТЕЛЯ
-SELECT official_id, count(order_id) AS orders_quantity FROM mailing_to_officials GROUP BY official_id;
+SELECT name_of_official, count(order_id) AS orders_quantity FROM mailing_to_officials GROUP BY name_of_official;
+SELECT area, count(area) AS area_quantity, count(title) AS city_quantity FROM official_city GROUP BY area;
 
 
 -- 8. SELECT GROUP BY + HAVING
@@ -100,20 +102,20 @@ SELECT official_name, count(official_salary) AS count_salary FROM official GROUP
 
 SELECT official_name, avg(official_salary) AS avg_salary FROM official GROUP BY official_name HAVING avg(official_salary) <= 50000;
 
-SELECT official_name, min(official_salary) AS min_salary FROM official GROUP BY official_name HAVING min(official_salary) <= 40000;    
+SELECT official_company, min(official_salary) AS min_salary FROM official GROUP BY official_company HAVING min(official_salary) >= 40000;    
 
 -- 9. SELECT JOIN
 ---- 9.1 LEFT JOIN двух таблиц и WHERE по одному из атрибутов
-SELECT order_recipient_surname, order_number FROM orders LEFT JOIN official_city ON order_number = postal_code;
+SELECT order_recipient_surname, order_number FROM orders LEFT JOIN mailing_to_officials ON order_id = mailing_to_officials.id;
 ---- 9.2 RIGHT JOIN. Получить такую же выборку, как и в 5.1
-SELECT sender_organisation_title, sender_address, sender_city_id FROM order_sender RIGHT JOIN official ON official_city_id = sender_city_id;
+SELECT name_of_official, date_of_shipment FROM mailing_to_officials RIGHT JOIN official ON official_id = official.id;
 ---- 9.3 LEFT JOIN трех таблиц + WHERE по атрибуту из каждой таблицы
-SELECT * FROM orders 
-LEFT JOIN official_city ON order_number = postal_code 
-LEFT JOIN official ON official_postal_code > postal_code 
-WHERE order_number >= 230000 AND area = 'Тверская' AND official_salary >= 60000;
+SELECT * FROM mailing_to_officials 
+LEFT JOIN official_city ON official_city_id = official_city.id
+LEFT JOIN official ON official_id = official.id 
+WHERE name_of_official = 'Алексей Иванов'  AND area = 'Чувашская республика' AND official_salary >= 40000;
 ---- 9.4 FULL OUTER JOIN двух таблиц
-SELECT * FROM orders FULL OUTER JOIN official_city ON order_number = postal_code;
+SELECT * FROM mailing_to_officials FULL OUTER JOIN order_sender ON sender_id = order_sender.id;
 
 -- 10. Подзапросы
 ---- 10.1 Написать запрос с WHERE IN (подзапрос)
